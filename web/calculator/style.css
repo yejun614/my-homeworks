@@ -1,0 +1,184 @@
+/*
+ * 2022-04-06
+ * YeJun, Jung (yejun614@naver.com)
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  margin: 20px;
+}
+
+main {
+  float: initial;
+}
+
+main > div {
+  margin: 30px 0;
+}
+
+.warning-small {
+  color: red;
+  display: none;
+}
+
+#calculator {
+  width: 280px;
+  padding: 20px;
+  padding-bottom: 50px;
+
+  background-color: #f0f0f0;
+  border: 1px solid #b3b3b3;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+}
+
+#calculator .keyboard {
+  width: 100%;
+  margin: 5px 0;
+}
+
+#calculator .keyboard.horizontal {
+  display: none;
+}
+
+#calculator .keyboard.vertical {
+  display: block;
+}
+
+#screen {
+  width: 100%;
+  height: 50px;
+
+  font-size: 18px;
+  text-align: right;
+
+  border: 1px solid black;
+}
+
+#calculator .links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#calculator .links .logo {
+  font-size: 15px;
+  font-weight: bold;
+
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.btn {
+  min-width: 60px;
+  height: 60px;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  background-color: white;
+  border: 1px solid #d6d6d6;
+  margin: 5px;
+}
+
+#calculator .btn.func {
+  color: #555555;
+  background-color: #dddddd;
+}
+
+#calculator .btn.calc {
+  background-color: #f8cc46;
+}
+
+#calculator .btn:hover {
+  color: white;
+  border-color: red;
+  background-color: #777;
+}
+
+.btn.toggle {
+  padding: 3px 10px;
+  background-color: coral;
+  color: white;
+  border: 5px solid transparent;
+  cursor: pointer;
+}
+
+.btn.toggle:hover {
+  border: 5px solid midnightblue;
+}
+
+.wrap {
+  height: 0;
+  overflow: hidden;
+  transition: height 300ms ease-in-out;
+}
+
+.wrap.active {
+  height: fit-content;
+}
+
+.help-box {
+  width: fit-content;
+  height: fit-content;
+  padding: 20px 30px;
+
+  border: 1px solid black;
+  margin: 30px 0;
+
+  background-color: #ddd;
+}
+
+.help-box.blue {
+  background-color: lightblue;  
+}
+
+.help-box.orange {
+  background-color: #FFD580;
+}
+
+#button-hover-help {
+  width: 300px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  .warning-small {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  main {
+    float: left;
+  }
+
+  #calculator {
+    width: 500px;
+    padding-bottom: 30px;
+  }
+
+  #calculator .keyboard.horizontal {
+    display: block;
+  }
+
+  #calculator .keyboard.vertical {
+    display: none;
+  }
+
+  .wrap {
+    padding: 0 30px;
+  }
+}
