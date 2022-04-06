@@ -1,0 +1,191 @@
+<!--
+ 2022-04-06
+ YeJun, Jung (yejun614@naver.com)
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Calculator</title>
+
+  <link rel="stylesheet" href="./style.css" type="text/css">
+
+  <script src="./script.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+  <main>
+    <h1>계산기!</h1>
+    <h2 class="warning-small">화면크기가 너무 작습니다</h2>
+
+    <br />
+    <p>대학과제로 제작한 웹 사이트이며 수익을 창출하지 않습니다.</p>
+    <p>참고 페이지: <a href="https://www.calculatorsoup.com/calculators/math/basic.php" target="_blank">Basic Calculator</a></p>
+    <p>소스코드: <a href="https://github.com/yejun614/my-homeworks" target="_blank">Github</a></p>
+
+    <br />
+    <p><b>(계산기 디버깅)</b> <span id="debug"></span></p>
+
+    <br />
+    <p style="color: grey;">2022-04-06</p>
+
+
+    <div id="calculator">
+      <div class="screen">
+        <input id="screen" type="text" />
+      </div>
+
+      <table class="keyboard vertical">
+        <tr>
+          <td><button class="btn func">mc</button></td>
+          <td><button class="btn func">m+</button></td>
+          <td><button class="btn func">m-</button></td>
+          <td><button class="btn func">mr</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn func clear">CE</button></td>
+          <td><button class="btn func">&#8730;x</button></td>
+          <td><button class="btn func">%</button></td>
+          <td><button class="btn calc">&#247;</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn num">7</button></td>
+          <td><button class="btn num">8</button></td>
+          <td><button class="btn num">9</button></td>
+          <td><button class="btn calc">x</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn num">4</button></td>
+          <td><button class="btn num">5</button></td>
+          <td><button class="btn num">6</button></td>
+          <td><button class="btn calc">-</button></td>        
+        </tr>
+
+        <tr>
+          <td><button class="btn num">1</button></td>
+          <td><button class="btn num">2</button></td>
+          <td><button class="btn num">3</button></td>
+          <td><button class="btn calc">+</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn num">0</button></td>
+          <td><button class="btn num">.</button></td>
+          <td><button class="btn num">+/-</button></td>
+          <td><button class="btn calc">=</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn func">&#960;</button></td>
+          <td><button class="btn func">x&#178;</button></td>
+          <td><button class="btn func">R2</button></td>
+          <td><button class="btn func">R0</button></td>
+        </tr>
+      </table>
+
+      <table class="keyboard horizontal">
+        <tr>
+          <td><button class="btn func">mc</button></td>
+          <td><button class="btn func">m+</button></td>
+          <td><button class="btn num">7</button></td>
+          <td><button class="btn num">8</button></td>
+          <td><button class="btn num">9</button></td>
+          <td><button class="btn calc">&#247;</button></td>
+          <td><button class="btn func">R2</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn func">m-</button></td>
+          <td><button class="btn func">mr</button></td>
+          <td><button class="btn num">4</button></td>
+          <td><button class="btn num">5</button></td>
+          <td><button class="btn num">6</button></td>
+          <td><button class="btn calc">x</button></td>
+          <td><button class="btn func">R0</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn func">&#960;</button></td>
+          <td><button class="btn func">x&#178;</button></td>
+          <td><button class="btn num">1</button></td>
+          <td><button class="btn num">2</button></td>
+          <td><button class="btn num">3</button></td>
+          <td><button class="btn calc">-</button></td>
+          <td><button class="btn func clear">CE</button></td>
+        </tr>
+
+        <tr>
+          <td><button class="btn func">&#8730;x</button></td>
+          <td><button class="btn func">%</button></td>
+          <td><button class="btn num">0</button></td>
+          <td><button class="btn num">.</button></td>
+          <td><button class="btn num">+/-</button></td>
+          <td><button class="btn calc">+</button></td>
+          <td><button class="btn calc">=</button></td>
+        </tr>
+      </table>
+
+      <div class="links">
+        <a href="#">Get a Widget for this Calculator</a>
+        <span class="logo">YeJun, Jung</span>
+      </div>
+    </div>
+
+    <button id="toggle-btn" class="btn toggle">
+      <span class="icon">&#9654;</span>
+      도움말 & 추가기능
+    </button>
+  </main>
+
+  <div class="wrap">
+    <div id="button-hover-help" class="help-box">
+      <p></p>
+    </div>
+
+    <div class="help-box blue">
+      <h3>Helper</h3>
+      <ul>
+        <li>mc = Memory Clear</li>
+        <li>m+ = Memory Plus</li>
+        <li>m- = Memory Minus</li>
+        <li>mr = Memory Recall</li>
+        <li>CE = Clear Entry</li>
+        <li>&#8730;x = Square Root</li>
+        <li>+/- = Plus/Minus</li>
+        <li>&#960; = Pi</li>
+        <li>x&#178; = Square</li>
+        <li>R2 = Round to 2 Decimals</li>
+        <li>R0 = Round to 0 Decimals</li>
+        <li>% = Percent</li>
+      </ul>
+    </div>
+
+    <div class="help-box orange">
+      <h3>추가 기능</h3>
+      <ul>
+        <li>자리수가 길어지면 콤마(,)가 붙습니다.</li>
+        <li>계산기 안에 모든 버튼이 동작합니다.</li>
+        <li>mc, m+, m-, mr 을 누르면 계산기 내부 메모리를 사용할 수 있습니다.</li>
+        <li>&#960;을 누르면 JS의 Math.PI값이 들어갑니다.</li>
+        <li>x&#178;을 누르면 현재 화면에 떠있는 값을 제곱합니다.</li>
+        <li>&#8730;x을 누르면 현재 화면에 떠있는 값의 제곱근을 반환합니다.</li>
+        <li>%을 누르면 퍼센트 값을 알 수 있습니다. (예시: 123의 10%는 123 x 10 = % 하면 12.3임을 알 수 있습니다.)</li>
+        <li>R2 소수점 2번째 자리에서 반올림 합니다.</li>
+        <li>R0 소수점 1번째 자리에서 반올림 합니다.</li>
+        <li>CE 한번 누르면 현재 값을 0으로 만들고 AC로 바뀝니다.</li>
+        <li>AC를 누르면 계산한 모든 값이 사라집니다. (내부 메모리에 저장된 값은 사라지지 않습니다.)</li>
+        <li>+/- 를 누르면 현재 값에 -1 을 곱합니다.</li>
+        <li>소수점 계산이 가능합니다.</li>
+        <li>마우스를 계산기 버튼위에 올리면 도움말이 출력됩니다.</li>
+        <li>계산기가 잘 작동하고 있는지 디버깅 메세지를 통해서 확인 가능 합니다.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
