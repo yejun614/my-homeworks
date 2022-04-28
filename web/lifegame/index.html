@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lifegame</title>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <script src="js/lifegame.js" type="text/javascript"></script>
+  <script src="js/main.js" type="text/javascript" defer></script>
+</head>
+<body>
+  <header>
+    <h1 id="game-title">LIFE GAME</h1>
+
+    <div class="control">
+      <button id="btn-set" class="btn">Setting</button>
+      <button id="btn-clear" class="btn">Clear</button>
+      <button id="btn-next" class="btn">Next</button>
+      <button id="btn-play" class="btn">Play</button>
+      <button id="btn-stop" class="btn">Stop</button>
+    </div>
+  </header>
+
+  <div id="game-box">
+    <canvas id="game"></canvas>
+  </div>
+
+  <div id="modal-setting" class="modal">
+    <div class="bg"></div>
+
+    <div class="wrap">
+      <h1>Settings</h1>
+
+      <label>Columns</label>
+      <input type="text" name="columns" placeholder="Columns">
+
+      <label>Rows</label>
+      <input type="text" name="cows" placeholder="Rows">
+
+      <label>Cell Width</label>
+      <input type="text" name="cell-width" placeholder="Cell Width">
+
+      <label>Cell Height</label>
+      <input type="text" name="cell-height" placeholder="Cell Height">
+
+      <label>Line Width</label>
+      <input type="text" name="line-width" placeholder="Line Width">
+
+      <label>Play Speed (1000 = 1 sec)</label>
+      <input type="text" name="play-speed" placeholder="Play Speed">
+
+      <div class="control">
+        <button id="btn-setting-cancel" class="btn red">Cancel</button>
+        <button id="btn-setting-apply" class="btn blue">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <span id="author">
+    2022-04-27<br>
+    YeJun, Jung (yejun614@naver.com)
+  </span>
+</body>
+</html>
