@@ -23,6 +23,7 @@ class MinesweeperGame {
   leftMouseButton = false;
   rightMouseButton = false;
   isGameOver = false;
+  isGameClear = false;
   playTime = 0;
   playTimeStamp = null;
   mineCounter = 0;
@@ -165,9 +166,15 @@ class MinesweeperGame {
       const x = Math.floor(Math.random() * this.columns);
       const y = Math.floor(Math.random() * this.rows);
 
-      if (x >= cx-1 && x <= cx+1 && y >= cy-1 && y <= cx+1) continue;
+      let checkPos = true;
+      for (let i = 0; i < 9; i ++) {
+        if (x == cx + XPOS[i] && y == cy + YPOS[i]) {
+          checkPos = false;
+          break;
+        }
+      }
 
-      if (this.mines[y][x] == 0) {
+      if (checkPos && this.mines[y][x] == 0) {
         this.mines[y][x] = 1;
         mineCount ++;
       }
@@ -334,19 +341,18 @@ class MinesweeperGame {
         const cellX = x * (this.cellSize + 3);
         const cellY = y * (this.cellSize + 3);
 
-        if (this.mines[y][x] == 2) {
-          this.drawHighlightCell(cellX, cellY);
-        }
+        if (this.board[y][x] >= 0) {
+          if (this.mines[y][x] != 0) {
+            this.drawFlag(cellX, cellY, 'flower');
 
-        if (this.board[y][x] == 0 && this.mines[y][x] == 1) {
-          this.drawFlag(cellX, cellY, 'flower');
-        }
+            if (this.mines[y][x] == 2) {
+              this.drawHighlightCell(cellX, cellY);
+            }
+          } else if (this.board[y][x] > 0) {
+            this.drawNumber(cellX, cellY, this.board[y][x]);
+          }
 
-        if (this.board[y][x] > 0) {
-          this.drawNumber(cellX, cellY, this.board[y][x]);
-        }
-
-        if (this.board[y][x] < 0) {
+        } else {
           this.drawHiddenCell(cellX, cellY);
         }
         
