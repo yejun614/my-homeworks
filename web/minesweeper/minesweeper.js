@@ -27,6 +27,7 @@ class MinesweeperGame {
   playTime = 0;
   playTimeStamp = null;
   mineCounter = 0;
+  mouseEventCounter = 0;
 
   constructor(canvas, columns = 10, rows = 10, mineLength = 5, cellSize = 20) {
     this.canvas = canvas;
@@ -103,6 +104,7 @@ class MinesweeperGame {
 
   mousedown(event) {
     event.preventDefault();
+    this.mouseEventCounter ++;
 
     const mouseX = Math.floor((event.pageX - this.canvas.offsetLeft) / (this.cellSize + 3));
     const mouseY = Math.floor((event.pageY - this.canvas.offsetTop) / (this.cellSize + 3));
@@ -189,6 +191,7 @@ class MinesweeperGame {
     this.playTime = 0;
     this.isGameOver = false;
     this.mineCounter = this.mineLength;
+    this.mouseEventCounter = 0;
 
     // Resize Canvas
     this.canvas.width = (this.cellSize + 3) * this.columns;
