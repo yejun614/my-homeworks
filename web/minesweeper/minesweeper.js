@@ -54,14 +54,36 @@ class MinesweeperGame {
     this.images['help'].src = 'help.png';
   }
 
+  gameClearCheck() {
+    // Game Clear Check
+    if (this.mineCounter == 0) {
+      let count = this.mineLength;
+
+      for (let y = 0; y < this.rows; y ++) {
+        for (let x = 0; x < this.columns; x ++) {
+          if (this.board[y][x] == '-2' && this.mines[y][x] == 1) {
+            count --;
+          }
+        }
+      }
+
+      if (count == 0) {
+        this.gameClear();
+      }
+    }
+  }
+
   setFlag(x, y, flag) {
     console.assert((x >= 0 && x <= this.columns), `setFlag: x position is over (${x})`);
     console.assert((y >= 0 && y <= this.rows), `setFlag: y position is over (${y})`);
 
     this.board[y][x] = flag;
 
-    if (flag == 0 && this.mines[y][x] == 1) {
+    if (flag >= 0 && this.mines[y][x] == 1) {
       this.gameOver(x, y);
+
+    } else {
+      this.gameClearCheck();
     }
   }
 
@@ -70,8 +92,6 @@ class MinesweeperGame {
 
     while (stack.length > 0) {
       const pos = stack.pop();
-      this.setFlag(pos[0], pos[1], 0);
-
       let checkMine = 0;
       const current = []
 
@@ -89,6 +109,7 @@ class MinesweeperGame {
       if (checkMine > 0) {
         this.setFlag(pos[0], pos[1], checkMine);
       } else {
+        this.setFlag(pos[0], pos[1], 0);
         current.forEach(el => stack.push(el));
       }
     }
@@ -108,6 +129,8 @@ class MinesweeperGame {
 
     const mouseX = Math.floor((event.pageX - this.canvas.offsetLeft) / (this.cellSize + 3));
     const mouseY = Math.floor((event.pageY - this.canvas.offsetTop) / (this.cellSize + 3));
+
+    if (mouseX < 0 || mouseX >= this.columns || mouseY < 0 || mouseY >= this.rows) return;
     
     if (!this.isPlay) {
       if (this.isGameOver) return;
@@ -127,8 +150,9 @@ class MinesweeperGame {
       console.log('Both click');
 
     } else if (this.leftMouseButton) {
-      // this.setFlag(mouseX, mouseY, 0);
-      this.openCell(mouseX, mouseY);
+      if (this.board[mouseY][mouseX] == -1) {
+        this.openCell(mouseX, mouseY);        
+      }
 
     } else if (this.rightMouseButton) {
       const cell = this.board[mouseY][mouseX];
@@ -190,6 +214,7 @@ class MinesweeperGame {
     // Game Clear
     this.playTime = 0;
     this.isGameOver = false;
+    this.isGameClear = false;
     this.mineCounter = this.mineLength;
     this.mouseEventCounter = 0;
 
@@ -207,23 +232,23 @@ class MinesweeperGame {
     this.update();
   }
 
+  gameClear() {
+    console.log(new Date(), 'Game Clear!!');
+
+    this.stop();
+    this.isGameClear = true;
+
+    this.update();
+  }
+
   gameOver(x, y) {
-    console.log('Game Over!');
+    console.log(new Date(), 'Game Over!');
 
     this.stop();
     this.isGameOver = true;
     
-    // Show all mines
-    for (let y = 0; y < this.rows; y ++) {
-      for (let x = 0; x < this.columns; x ++) {
-        if (this.mines[y][x] == 0) continue;
-        this.board[y][x] = 0;
-      }
-    }
-
-    this.board[y][x] = 2;
+    this.mines[y][x] = 2;
     this.update();
-    this.drawMarkCell(x * (this.cellSize + 3), y * (this.cellSize + 3));
   }
 
   nextFrame() {
@@ -245,7 +270,7 @@ class MinesweeperGame {
 
   drawHighlightCell(cellX, cellY) {
     this.context.fillStyle = this.colors['highlight'];
-    this.context.fillRect(cellX, cellY, this.cellSize, this.cellSize);
+    this.context.fillRect(cellX, cellY, this.cellSize+1, this.cellSize+1);
   }
 
   drawMarkCell(cellX, cellY) {
@@ -300,20 +325,19 @@ class MinesweeperGame {
     cellX += (this.cellSize / 2) - 3;
     cellY += this.cellSize - 3;
 
-    const fontSize = this.cellSize - 3;
-
-    if (this.textColors.length >= num) {
-      this.context.fillStyle = this.textColors[num];
+    if (num >= this.textColors.length) {
+      this.context.fillStyle = this.textColors[0];
 
     } else {
-      this.context.fillStyle = this.textColors[0];
+      this.context.fillStyle = this.textColors[num];
     }
 
+    const fontSize = this.cellSize - 3;
     this.context.font = `${fontSize}px bold sans-serif`;
-    this.context.fillText(num, cellX, cellY);
+    this.context.fillText(num.toString(), cellX, cellY);
   }
 
-  drawBoard() {
+  drawBackground() {
     // Background Color
     this.context.fillStyle = this.colors['visible'];
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -337,26 +361,52 @@ class MinesweeperGame {
       this.context.lineTo(cellX, this.canvas.height)
     }
     this.context.stroke();
+  }
 
-    // Cells
+  drawGameOver() {
     for (let y = 0; y < this.rows; y ++) {
       for (let x = 0; x < this.columns; x ++) {
         const cellX = x * (this.cellSize + 3);
         const cellY = y * (this.cellSize + 3);
 
-        if (this.board[y][x] >= 0) {
-          if (this.mines[y][x] != 0) {
-            this.drawFlag(cellX, cellY, 'flower');
-
-            if (this.mines[y][x] == 2) {
-              this.drawHighlightCell(cellX, cellY);
-            }
-          } else if (this.board[y][x] > 0) {
+        if (this.mines[y][x] == 0) {
+          if (this.board[y][x] > 0) {
             this.drawNumber(cellX, cellY, this.board[y][x]);
+  
+          } else if (this.board[y][x] < 0) {
+            this.drawHiddenCell(cellX, cellY);
+          }
+          
+        } else {
+          this.drawFlag(cellX, cellY, 'flower');
+
+          if (this.mines[y][x] == 2) {
+            this.drawHighlightCell(cellX, cellY);
+            this.drawFlag(cellX, cellY, 'flower');
           }
 
-        } else {
+          if (this.board[y][x] == -2) {
+            this.drawMarkCell(cellX, cellY);
+          }
+        }
+        
+        if (this.board[y][x] == -3) {
+          this.drawFlag(cellX, cellY, 'help');
+        }
+      }
+    }
+  }
+
+  drawBoard() {
+    for (let y = 0; y < this.rows; y ++) {
+      for (let x = 0; x < this.columns; x ++) {
+        const cellX = x * (this.cellSize + 3);
+        const cellY = y * (this.cellSize + 3);
+
+        if (this.board[y][x] < 0) {
           this.drawHiddenCell(cellX, cellY);
+        } else if (this.board[y][x] > 0) {
+          this.drawNumber(cellX, cellY, this.board[y][x]);
         }
         
         if (this.board[y][x] == -2) {
@@ -372,8 +422,13 @@ class MinesweeperGame {
     // Clear Canvas
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Draw Board
-    this.drawBoard();
+    // Draw
+    this.drawBackground();
+    if (this.isGameClear || this.isGameOver) {
+      this.drawGameOver();
+    } else {
+      this.drawBoard();
+    }
 
     if (this.isPlay) {
       // Play Time
@@ -388,5 +443,4 @@ class MinesweeperGame {
       this.nextFrame();
     }
   }
-
 }
