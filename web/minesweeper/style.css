@@ -143,3 +143,36 @@ main {
   border-bottom-color: rgb(255, 255, 255);
   border-right-color: rgb(255, 255, 255);
 }
+
+#game-over-modal {
+  width: 250px;
+  padding: 15px;
+  position: absolute;
+  display: none;
+
+  background-color: rgb(192, 192, 192);
+  border: 1px solid black;
+
+  flex-direction: column;
+}
+
+#game-over-modal.active {
+  display: flex;
+}
+
+#game-over-modal h2 {
+  font-size: 20px;
+}
+
+#game-over-modal .title {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#game-over-modal .info {
+  margin-bottom: 10px;
+}
+
+#modal-close-btn {
+  padding: 5px;
+}

@@ -9,13 +9,16 @@ class GameDisplay {
   };
 
   defaultImage = 'idle'
+  gameOverModalCheck = false;
 
-  constructor (game, resetBtn, mineCounter, playTime) {
+  constructor (game) {
     this.game = game;
-    this.resetBtn = resetBtn;
+    this.resetBtn = document.querySelector('#reset-btn');
     this.resetBtnImage = this.resetBtn.querySelector('img');
-    this.mineCounter = mineCounter;
-    this.playTime = playTime;
+    this.mineCounter = document.querySelector('#mine-counter');
+    this.playTime = document.querySelector('#play-time');
+    this.gameOverModal = document.querySelector('#game-over-modal');
+    this.modalCloseBtn = document.querySelector('#modal-close-btn');
 
     this.addEvents();
     this.display();
@@ -23,7 +26,8 @@ class GameDisplay {
   }
 
   addEvents() {
-    this.resetBtn.addEventListener('click', () => this.game.reset());
+    this.resetBtn.addEventListener('click', () => this.resetGame());
+    this.modalCloseBtn.addEventListener('click', () => this.toggleModal());
     this.game.canvas.addEventListener('mousedown', () => this.changeResetButton('click'));
     this.game.canvas.addEventListener('mouseup', () => this.changeResetButton('idle'));
   }
@@ -38,6 +42,19 @@ class GameDisplay {
     }
 
     return numStr;
+  }
+
+  resetGame() {
+    this.gameOverModalCheck = false;
+    this.game.reset();
+  }
+
+  toggleModal() {
+    this.gameOverModal.querySelector('.modal-title').innerText = this.game.isGameClear ? 'Game Clear!!' : 'Game OVER!';
+    this.gameOverModal.querySelector('.info.time').innerText = this.game.playTime;
+    this.gameOverModal.querySelector('.info.count').innerText = this.game.mouseEventCounter;
+
+    this.gameOverModal.classList.toggle('active');
   }
 
   changeResetButton(image = '') {
@@ -59,6 +76,11 @@ class GameDisplay {
     this.mineCounter.innerText = this.padLeft(this.game.mineCounter <= 0 ? 0 : this.game.mineCounter, 3);
     this.playTime.innerText = this.padLeft(this.game.playTime, 3);
     this.changeResetButton();
+
+    if (!this.gameOverModalCheck && (this.game.isGameClear || this.game.isGameOver)) {
+      this.gameOverModalCheck = true;
+      this.toggleModal();
+    }
   }
 
   update(timestamp) {
