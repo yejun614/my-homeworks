@@ -1,0 +1,70 @@
+<!--
+ 20193219 정예준
+ http://113.198.229.232/wp2022/core/index.php?tag=Q12
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Minesweeper Game</title>
+
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+    <script src="minesweeper.js" type="text/javascript"></script>
+    <script src="display.js" type="text/javascript"></script>
+    <script src="script.js" type="text/javascript" defer></script>
+  </head>
+
+  <body>
+    <div id="game-setting">
+      <h1>Minesweeper</h1>
+
+      <label>Columns</label>
+      <input type="text" name="column" placeholder="Column" value="20">
+      <label>Rows</label>
+      <input type="text" name="row" placeholder="Rows" value="20">
+      <label>Mines</label>
+      <input type="text" name="mines" placeholder="Mines" value="99">
+
+      <button id="game-start-btn" class="btn">START GAME</button>
+    </div>
+
+    <main id="game-window" class="active">
+      <div class="window-head">
+        <span class="title">Minesweeper</span>
+        <button id="window-close-btn" class="close btn">X</button>
+      </div>
+
+      <div id="dashboard">
+        <div id="mine-counter" class="display">000</div>
+
+        <div>
+          <button id="reset-btn" class="btn">
+            <img src="smile-idle.png" alt="Smile" />
+          </button>
+        </div>
+
+        <div id="play-time" class="display">000</div>
+
+      </div>
+      <div class="game-wrap">
+        <canvas id="game-canvas"></canvas>
+      </div>
+      <span id="developer">
+        20193219 정예준
+      </span>
+    </main>
+
+    <div id="game-over-modal">
+      <h2 class="modal-title">Game Over!</h2>
+
+      <span class="title">Play Time</span>
+      <span class="info time"></span>
+      <span class="title">Mouse Click Counter</span>
+      <span class="info count"></span>
+
+      <button id="modal-close-btn" class="btn">Close</button>
+    </div>
+  </body>
+</html>

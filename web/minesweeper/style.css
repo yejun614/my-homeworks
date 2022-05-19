@@ -1,0 +1,228 @@
+@font-face {
+  font-family: 'LABDigital';
+  src: url('LABDigital.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  background-color: rgb(189, 189, 189);
+
+  border-width: 3px;
+  border-style: solid;
+  border-top-color: rgb(255, 255, 255);
+  border-left-color: rgb(255, 255, 255);
+  border-bottom-color: rgb(123, 123, 123);
+  border-right-color: rgb(123, 123, 123);
+}
+
+.btn:active {
+  background-color: rgb(189, 189, 189);
+  border-top-color: rgb(123, 123, 123);
+  border-left-color: rgb(123, 123, 123);
+  border-bottom-color: rgb(255, 255, 255);
+  border-right-color: rgb(255, 255, 255);
+}
+
+input[type="text"] {
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  padding: 5px 8px;
+  font-size: 15px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+}
+
+#game-setting {
+  width: 200px;
+  padding: 10px 20px;
+  border: 1px solid black;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-setting h1 {
+  font-size: 20px;
+  text-transform: uppercase;
+  margin: 15px;
+}
+
+#game-setting label {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+#game-setting input[type="text"] {
+  width: 90%;
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+#game-setting .btn {
+  width: 90%;
+  height: 40px;
+  margin: 10px;
+}
+
+.window-head {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.window-head .title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.close.btn {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  padding-top: 3px;
+}
+
+main {
+  position: absolute;
+  height: fit-content;
+  display: none;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+  background-color: rgb(189, 189, 189);
+  border-width: 3px;
+  border-style: solid;
+  border-top-color: rgb(255, 255, 255);
+  border-left-color: rgb(255, 255, 255);
+  border-bottom-color: rgb(123, 123, 123);
+  border-right-color: rgb(123, 123, 123);
+}
+
+main.active {
+  display: flex;
+}
+
+#dashboard {
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: rgb(192, 192, 192);
+
+  border-width: 3px;
+  border-style: solid;
+  border-top-color: rgb(123, 123, 123);
+  border-left-color: rgb(123, 123, 123);
+  border-bottom-color: rgb(255, 255, 255);
+  border-right-color: rgb(255, 255, 255);
+}
+
+#dashboard .display {
+  min-width: 60px;
+  height: 38px;
+  margin: 0 10px;
+
+  color: red;
+  background-color: black;
+  font-size: 30px;
+  font-family: 'LABDigital', monospace;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#reset-btn {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 3px;
+}
+
+#reset-btn img {
+  width: 28px;
+  height: 28px;
+}
+
+#game-canvas {
+  margin-top: 10px;
+  
+  border-width: 3px;
+  border-style: solid;
+  border-top-color: rgb(123, 123, 123);
+  border-left-color: rgb(123, 123, 123);
+  border-bottom-color: rgb(255, 255, 255);
+  border-right-color: rgb(255, 255, 255);
+}
+
+#developer {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#game-over-modal {
+  width: 250px;
+  padding: 15px;
+  position: absolute;
+  display: none;
+
+  background-color: rgb(192, 192, 192);
+  border: 1px solid black;
+
+  flex-direction: column;
+}
+
+#game-over-modal.active {
+  display: flex;
+}
+
+#game-over-modal h2 {
+  font-size: 20px;
+}
+
+#game-over-modal .title {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#game-over-modal .info {
+  margin-bottom: 10px;
+}
+
+#modal-close-btn {
+  padding: 5px;
+}
