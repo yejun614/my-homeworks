@@ -100,7 +100,7 @@ class MinesweeperGame {
         const ypos = pos[1] + YPOS[i];
 
         if (xpos < 0 || xpos >= this.columns || ypos < 0 || ypos >= this.rows) continue;
-        if (this.board[ypos][xpos] != -1) continue;
+        if (this.board[ypos][xpos] >= 0) continue;
         if (this.mines[ypos][xpos] == 1) checkMine ++;
 
         current.push([xpos, ypos]);
@@ -115,9 +115,58 @@ class MinesweeperGame {
     }
   }
 
+  openAroundCell(x, y) {
+    for (let i = 0; i < 9; i ++) {
+      const xpos = x + XPOS[i];
+      const ypos = y + YPOS[i];
+
+      if (xpos < 0 || xpos >= this.columns || ypos < 0 || ypos >= this.rows) continue;
+      if (this.board[ypos][xpos] != -1) continue;
+
+      this.board[ypos][xpos] = -4;
+    }
+  }
+
+  applyAroundCell(x, y) {
+    let flags = 0;
+
+    for (let i = 0; i < 9; i ++) {
+      const xpos = x + XPOS[i];
+      const ypos = y + YPOS[i];
+
+      if (xpos < 0 || xpos >= this.columns || ypos < 0 || ypos >= this.rows) continue;
+      if (this.board[ypos][xpos] == -2) flags ++;
+    }
+
+    if (this.board[y][x] > 0 && flags >= this.board[y][x]) {
+      for (let i = 0; i < 9; i ++) {
+        const xpos = x + XPOS[i];
+        const ypos = y + YPOS[i];
+
+        if (xpos < 0 || xpos >= this.columns || ypos < 0 || ypos >= this.rows) continue;
+        if (this.board[ypos][xpos] == -2) continue;
+        
+        this.openCell(xpos, ypos);
+      }
+    }
+
+    this.closeAroundCell();
+  }
+
+  closeAroundCell() {
+    for (let y = 0; y < this.rows; y ++) {
+      for (let x = 0; x < this.columns; x ++) {
+        if (this.board[y][x] == -4) {
+          this.board[y][x] = -1;
+        }
+      }
+    }
+  }
+
   addEvents() {
     this.canvas.addEventListener('mousedown', event => this.mousedown(event));
     this.canvas.addEventListener('mouseup', event => this.mouseup(event));
+    this.canvas.addEventListener('mousemove', event => this.mousemove(event));
     this.canvas.addEventListener('contextmenu', event => {
       event.preventDefault();
     });
@@ -127,11 +176,12 @@ class MinesweeperGame {
     event.preventDefault();
     this.mouseEventCounter ++;
 
-    const mouseX = Math.floor((event.pageX - this.canvas.offsetLeft) / (this.cellSize + 3));
-    const mouseY = Math.floor((event.pageY - this.canvas.offsetTop) / (this.cellSize + 3));
+    const rect = this.canvas.getBoundingClientRect();
+    const mouseX = Math.floor((event.pageX - rect.left) / (this.cellSize + 3));
+    const mouseY = Math.floor((event.pageY - rect.top) / (this.cellSize + 3));
 
     if (mouseX < 0 || mouseX >= this.columns || mouseY < 0 || mouseY >= this.rows) return;
-    
+
     if (!this.isPlay) {
       if (this.isGameOver) return;
 
@@ -147,11 +197,11 @@ class MinesweeperGame {
     }
 
     if (event.which == 2 || (this.leftMouseButton && this.rightMouseButton)) {
-      console.log('Both click');
+      this.openAroundCell(mouseX, mouseY);
 
     } else if (this.leftMouseButton) {
       if (this.board[mouseY][mouseX] == -1) {
-        this.openCell(mouseX, mouseY);        
+        this.openCell(mouseX, mouseY);
       }
 
     } else if (this.rightMouseButton) {
@@ -178,10 +228,29 @@ class MinesweeperGame {
   }
 
   mouseup(event) {
+    if (event.which == 2 || (this.leftMouseButton && this.rightMouseButton)) {
+      const rect = this.canvas.getBoundingClientRect();
+      const mouseX = Math.floor((event.pageX - rect.left) / (this.cellSize + 3));
+      const mouseY = Math.floor((event.pageY - rect.top) / (this.cellSize + 3));
+
+      this.applyAroundCell(mouseX, mouseY);
+    }
+    
     if (event.which == 1) {
       this.leftMouseButton = false;
     } else if (event.which == 3) {
       this.rightMouseButton = false;
+    }
+  }
+
+  mousemove(event) {
+    if (event.which == 2 || (this.leftMouseButton && this.rightMouseButton)) {
+      const rect = this.canvas.getBoundingClientRect();
+      const mouseX = Math.floor((event.pageX - rect.left) / (this.cellSize + 3));
+      const mouseY = Math.floor((event.pageY - rect.top) / (this.cellSize + 3));
+
+      this.closeAroundCell();
+      this.openAroundCell(mouseX, mouseY);
     }
   }
 
@@ -225,7 +294,7 @@ class MinesweeperGame {
     // 0 -- Nothing, 1 -- Mine
     this.mines = [...Array(this.rows)].map(x => new Array(this.columns).fill(0));
 
-    // (-1) -- Hidden, (0) -- Visible, (-2) -- Flag(Mine), (-3) -- Flag(Question)
+    // (-1) -- Hidden, (0) -- Visible, (-2) -- Flag(Mine), (-3) -- Flag(Question), (-4) -- Around Check
     this.board = [...Array(this.rows)].map(x => new Array(this.columns).fill(-1));
 
     // Draw Game
@@ -403,7 +472,7 @@ class MinesweeperGame {
         const cellX = x * (this.cellSize + 3);
         const cellY = y * (this.cellSize + 3);
 
-        if (this.board[y][x] < 0) {
+        if (this.board[y][x] < 0 && this.board[y][x] != -4) {
           this.drawHiddenCell(cellX, cellY);
         } else if (this.board[y][x] > 0) {
           this.drawNumber(cellX, cellY, this.board[y][x]);

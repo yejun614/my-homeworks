@@ -17,14 +17,23 @@
   </head>
 
   <body>
-    <nav>
-      <h1>Minesweeper Game</h1>
-    </nav>
-    
-    <main>
+    <div id="game-setting">
+      <h1>Minesweeper</h1>
+
+      <label>Columns</label>
+      <input type="text" name="column" placeholder="Column" value="20">
+      <label>Rows</label>
+      <input type="text" name="row" placeholder="Rows" value="20">
+      <label>Mines</label>
+      <input type="text" name="mines" placeholder="Mines" value="99">
+
+      <button id="game-start-btn" class="btn">START GAME</button>
+    </div>
+
+    <main id="game-window" class="active">
       <div class="window-head">
         <span class="title">Minesweeper</span>
-        <button class="close btn">X</button>
+        <button id="window-close-btn" class="close btn">X</button>
       </div>
 
       <div id="dashboard">
@@ -42,6 +51,9 @@
       <div class="game-wrap">
         <canvas id="game-canvas"></canvas>
       </div>
+      <span id="developer">
+        20193219 정예준
+      </span>
     </main>
 
     <div id="game-over-modal">

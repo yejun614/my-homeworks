@@ -13,23 +13,64 @@ class GameDisplay {
 
   constructor (game) {
     this.game = game;
+
+    // Setting Buttons
+    this.window = document.querySelector('#game-window');
+    this.setting = document.querySelector('#game-setting');
+    this.startBtn = document.querySelector('#game-start-btn');
+    this.closeBtn = document.querySelector('#window-close-btn');
+
+    // Reset Button
     this.resetBtn = document.querySelector('#reset-btn');
     this.resetBtnImage = this.resetBtn.querySelector('img');
+
+    // 7-Segment Display
     this.mineCounter = document.querySelector('#mine-counter');
     this.playTime = document.querySelector('#play-time');
+
+    // Modal
     this.gameOverModal = document.querySelector('#game-over-modal');
     this.modalCloseBtn = document.querySelector('#modal-close-btn');
 
+    // Initialize
     this.addEvents();
     this.display();
     this.update();
   }
 
   addEvents() {
+    this.startBtn.addEventListener('click', () => this.windowOpen());
+    this.closeBtn.addEventListener('click', () => this.windowClose());
     this.resetBtn.addEventListener('click', () => this.resetGame());
     this.modalCloseBtn.addEventListener('click', () => this.toggleModal());
     this.game.canvas.addEventListener('mousedown', () => this.changeResetButton('click'));
     this.game.canvas.addEventListener('mouseup', () => this.changeResetButton('idle'));
+  }
+
+  windowOpen() {
+    const columns = parseInt(this.setting.querySelector('input[name="column"]').value);
+    const rows = parseInt(this.setting.querySelector('input[name="row"]').value);
+    const mines = parseInt(this.setting.querySelector('input[name="mines"]').value);
+
+    if (columns < 5) alert('columns 값은 최소 5이상이 되어야 합니다');
+    if (rows < 5) alert('rows 값은 최소 5이상이 되어야 합니다');
+    if (mines < 10) alert('mines 값은 최소 10이상이 되어야 합니다');
+    if (mines >= columns * rows) alert('mines 값이 너무 큽니다.');
+
+    if ((columns >= 5) && (rows >= 5) && (mines >= 10) && (mines < columns * rows)) {
+      this.game.columns = columns;
+      this.game.rows = rows;
+      this.game.mineLength = mines;
+      this.game.reset();
+  
+      this.gameOverModalCheck = false;
+      this.window.classList.add('active');
+    }
+  }
+
+  windowClose() {
+    this.game.stop();
+    this.window.classList.remove('active');
   }
 
   padLeft(number, digits) {
