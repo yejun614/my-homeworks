@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sliding puzzle</title>
+
+  <link rel="stylesheet" href="style.css" type="text/css">
+
+  <script src="sliding_puzzle.js" type="text/javascript"></script>
+  <script src="script.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+  <header>
+    <span>Sliding Puzzle</span>
+  </header>
+
+  <main>
+    <div id="display">
+      <div class="item">
+        <span class="step">sec</span>
+        <span class="num playtime">000</span>
+      </div>
+
+      <div class="item">
+        <span class="step">move</span>
+        <span class="num mouse-counter">000</span>
+      </div>
+    </div>
+
+    <canvas id="game"></canvas>
+  </main>
+
+  <div id="control">
+    <button class="btn" onclick="newGame();">New Game</button>
+    <button class="btn" onclick="changeSize();">Change Size</button>
+    <button class="btn" onclick="toggleAutoMode();">Auto Mode (OFF)</button>
+  </div>
+
+  <div id="modal">
+    <div class="wrap">
+      <h2>Congratulations!</h2>
+      <span>Game Clear</span>
+      <button class="btn" onclick="closeModal();">Close</button>
+    </div>
+  </div>
+</body>
+</html>
